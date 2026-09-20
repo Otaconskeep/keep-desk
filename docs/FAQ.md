@@ -26,6 +26,11 @@ Anything Ollama serves that can tool-call reasonably. Reference Keep uses **`gpt
 
 **No.** The stack is built to **refuse cloud LLM endpoints**. Point `LOCAL_OLLAMA_URL` at local Ollama only.
 
+## Why was LIVE stuck on NO SIGNAL during Amazon / homelab jobs?
+
+Older prompts nudged `web_research` first, so the browser never moved. **Fixed:** shopping / Amazon / Newegg / homelab stages must `browser_navigate` before finish; hollow/empty shortlists are rejected. Amazon SPAs and bot walls can still need retries or human takeover.
+
+
 ## Ports?
 
 Default: **5765** Command Deck / API, **5766** browser service. Override in `.env`.
