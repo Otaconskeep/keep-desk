@@ -33,8 +33,11 @@ You are NOT a chatbot. Do real work with tools, then finish(summary=...).
 
 Rules:
 - Prefer artifacts under workspace/ and memory/{bot_id}/.
-- Browse / news / search / "look up on the web" jobs: call web_research FIRST (not http_fetch, not shell).
-- Use browser_navigate / browser_content / browser_click_text for follow-up browsing.
+- News / wiki / generic "look up": web_research is OK; still browser_navigate when LIVE must move.
+- SHOPPING / Amazon / Newegg / product shortlists: browser_navigate FIRST to a real search or product URL.
+  Do NOT finish a shopping stage on web_research alone — LIVE must show real product pages.
+  Prefer /dp/ or concrete listing pages over /s?k= search SERPs when picking.
+- Use browser_content / browser_click_text after navigate. Amazon is an SPA — wait and re-read content.
 - http_fetch is for simple static GETs only — it returns text_excerpt; never pipe it into shell stdin.
 - shell has NO stdin from other tools. Never use sys.stdin.read().
 - Do not wander to shopping sites unless the brief asks.
@@ -43,6 +46,7 @@ Rules:
 - Never claim production Keep/REX/media/HA changes — those stay REX-gated.
 - If a tool returns pending_approval, stop.
 - When you have enough findings, desk_write them, then finish(summary=...).
+- Never desk_write an empty or placeholder shortlist. If the page is a bot wall, say so and retry navigate.
 - Job start/finish auto-notify the operator via Keep Desk chat + Codec. Use operator_chat / codec_transmit for mid-job updates.
 """
 
@@ -52,10 +56,10 @@ Follow the brief in order. Do not stop after the first finding.
 
 Typical tools:
 - room_list + group_post to talk in Keep Desk rooms
-- web_research for news / product search
+- browser_navigate + browser_content FIRST for Amazon/Newegg/shopping (LIVE must move off NO SIGNAL)
+- web_research only as a supplement after at least one real navigate — never as the only evidence
 - youtube_transcript(url=...) after you find a YouTube video
-- browser_navigate / browser_content for Amazon or pages that need JS
-- desk_write for each deliverable (proposal, shopping pick, final report)
+- desk_write for each deliverable (proposal, shopping pick, final report) with REAL URLs + prices
 - operator_chat for mid-job human updates
 - finish only when EVERY part of the brief is done
 
@@ -63,8 +67,9 @@ Write the final report in plain human language — like briefing a friend, not a
 No jargon stacks, no "as an AI", no bullet telemetry dumps.
 
 Shopping (Amazon etc.) is ALLOWED when the brief asks for it.
-Forbidden: shell+stdin parsing; repeating the same failing tool; finishing early.
-Watch mode: browser actions update workspace/screenshots/live.png.
+Forbidden: shell+stdin parsing; repeating the same failing tool; finishing early;
+empty shortlists; inventing prices without opening a page; leaving LIVE on NO SIGNAL all job.
+Watch mode: browser_navigate updates workspace/screenshots/live.png — use it.
 """
 
 
@@ -77,18 +82,32 @@ def _bot_system(bot: dict) -> str:
     )
 
 
+def _is_shopping_job(job: dict) -> bool:
+    blob = f"{job.get('title') or ''} {job.get('brief') or ''} {job.get('parent_brief') or ''}".lower()
+    stage = (job.get('stage_id') or '').lower()
+    if stage in ('shortlist', 'picks', 'study', 'cart'):
+        return True
+    keys = (
+        'amazon', 'newegg', 'ebay', 'cart', 'checkout', 'trade study', 'shortlist',
+        'homelab', 'mini pc', 'optiplex', 'thinkcentre', 'elitedesk', 'shoes',
+        'roaster', 'coffee', 'under $', 'under $', 'listing', 'product page',
+        'buy ', 'shop', 'sku',
+    )
+    return any(k in blob for k in keys)
+
+
 def _is_browse_job(job: dict) -> bool:
     blob = f"{job.get('title') or ''} {job.get('brief') or ''}".lower()
     keys = (
         'browse', 'google', 'news', 'search the web', 'look for', 'look up',
         'website', 'http://', 'https://', 'duckduckgo', 'wikipedia', 'find news',
         'metal gear', 'web research', 'online', 'youtube', 'amazon', 'transcript',
-        'proposal', 'shoes', 'price', 'room',
+        'proposal', 'shoes', 'price', 'room', 'homelab', 'newegg',
         # shopping / local research (coffee, cart, find X, etc.)
         'find ', 'find the', 'roaster', 'coffee', 'cart', 'shop', 'buy ',
         'order', 'store', 'tucson', 'beans', 'trade study',
     )
-    return any(k in blob for k in keys)
+    return any(k in blob for k in keys) or _is_shopping_job(job)
 
 
 def _is_multipart_job(job: dict) -> bool:
@@ -119,23 +138,99 @@ def _notify_operator(*, bot_id: str, job_id: str, text: str, kind: str, codec: b
         log.warning('operator notify failed: %s', e)
 
 
-def _browse_ready(trace: list) -> tuple[bool, str]:
+def _artifact_is_hollow(text: str) -> bool:
+    """True if a shortlist/picks write is empty, placeholder, or search-SERP-only junk."""
+    body = (text or '').strip()
+    if len(body) < 80:
+        return True
+    low = body.lower()
+    if any(p in low for p in ('todo', 'tbd', 'placeholder', 'no results', 'could not find', '(empty)')):
+        if low.count('http') < 2:
+            return True
+    urls = re.findall(r'https?://[^\s\)\]\>\"\']+', body)
+    if not urls:
+        return True
+    # Search SERPs alone are weak evidence for picks/study
+    productish = [
+        u for u in urls
+        if any(x in u.lower() for x in ('/dp/', '/gp/product', '/p/', 'item=', 'product/', '/itm/'))
+    ]
+    search_only = urls and not productish and all(
+        any(x in u.lower() for x in ('/s?', '/s/', 'search?', 'pl?d=', 'k=')) for u in urls
+    )
+    if search_only and 'winner' not in low and 'criteria' not in low:
+        # shortlist may use search URLs; picks/recommendation should not be SERP-only
+        return False  # allow shortlist SERPs; stricter check applied by stage
+    return False
+
+
+def _picks_need_concrete_urls(text: str) -> bool:
+    """Picks/study should prefer concrete listing pages over /s?k= SERPs."""
+    urls = re.findall(r'https?://[^\s\)\]\>\"\']+', text or '')
+    if not urls:
+        return True
+    concrete = [
+        u for u in urls
+        if any(x in u.lower() for x in ('/dp/', '/gp/product', '/p/', 'item=', '/itm/'))
+    ]
+    return len(concrete) == 0
+
+
+def _browse_ready(trace: list, job: dict | None = None) -> tuple[bool, str]:
     tools = [t.get('tool') for t in (trace or [])]
-    if 'web_research' not in tools:
-        return False, 'Browse jobs require web_research before finish.'
+    shopping = _is_shopping_job(job or {})
+    stage = ((job or {}).get('stage_id') or '').lower()
+
+    if shopping:
+        if 'browser_navigate' not in tools:
+            return False, (
+                'Shopping jobs require browser_navigate to a real Amazon/Newegg/product URL '
+                'before finish (LIVE must leave NO SIGNAL). web_research alone is not enough.'
+            )
+    else:
+        if 'web_research' not in tools and 'browser_navigate' not in tools:
+            return False, 'Browse jobs require web_research or browser_navigate before finish.'
+
     wrote = False
+    wrote_body = ''
+    wrote_path = ''
     for t in (trace or []):
         if t.get('tool') != 'desk_write':
             continue
         res = t.get('result') or {}
+        args = t.get('args') or {}
         if res.get('ok') and int(res.get('bytes') or 0) > 20:
-            path = str(res.get('path') or '')
-            if 'research' in path or path.endswith('.md'):
-                wrote = True
-                break
+            path = str(res.get('path') or args.get('path') or '')
             wrote = True
+            wrote_path = path
+            content = args.get('content')
+            if isinstance(content, str):
+                wrote_body = content
+            else:
+                try:
+                    from tools import DESK_ROOT
+                    p = DESK_ROOT / path
+                    if p.is_file():
+                        wrote_body = p.read_text(errors='replace')
+                except Exception:
+                    pass
+            if 'research' in path or path.endswith('.md'):
+                break
     if not wrote:
         return False, 'Browse jobs require a successful desk_write of findings (path under workspace/research/*.md) before finish.'
+
+    if shopping and _artifact_is_hollow(wrote_body):
+        return False, (
+            f'Hollow artifact blocked ({wrote_path or "desk_write"}). '
+            'Write a real shortlist/picks with names, https URLs, and prices — not empty/placeholder text.'
+        )
+    if stage in ('picks',) and _picks_need_concrete_urls(wrote_body):
+        # Allow SERP URLs only if LIVE navigate happened and prices are present
+        if not ('$' in wrote_body and 'browser_navigate' in tools and len(wrote_body) > 200):
+            return False, (
+                'Picks need concrete product URLs (/dp/, /p/, item=) or at least '
+                'browser_navigate + ballpark $ prices — not a hollow search-SERP dump.'
+            )
     return True, 'ok'
 
 
@@ -394,7 +489,7 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
         text=(
             f'STARTED job {job["id"]}: {job.get("title")}\n'
             f'Brief: {(job.get("brief") or "")[:500]}\n'
-            f'Mode: {"browse/web_research" if browse else "desk"} · watching on :5765'
+            f'Mode: {"shopping/browser_navigate" if _is_shopping_job(job) else ("browse/web_research" if browse else "desk")} · watching on :5765'
             + (f'\nResearch dir: {rdir}' if rdir else '')
         ),
         kind='status',
@@ -413,15 +508,27 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
             f"Ignore leftover files in workspace/research/pipeline_*.md from other missions."
         )
     if browse:
-        user += (
-            "\n\nStart now with web_research using a concise query derived from the brief. "
-            "Do not use shell. desk_write findings before finish."
-        )
-    # Early write nudge for image shortlist — don't burn all steps clicking
+        if _is_shopping_job(job):
+            user += (
+                "\n\nSHOPPING MODE — Start NOW with browser_navigate to a real Amazon or Newegg "
+                "search/product URL from the brief (e.g. https://www.amazon.com/s?k=...). "
+                "LIVE must leave NO SIGNAL. Then browser_content / click into listings. "
+                "web_research is optional supplement ONLY after at least one navigate. "
+                "desk_write a NON-EMPTY shortlist/picks with https URLs and $ prices before finish. "
+                "Prefer /dp/ product pages for picks. Do not use shell."
+            )
+        else:
+            user += (
+                "\n\nStart with web_research OR browser_navigate using a concise query/URL from the brief. "
+                "If the brief names a URL, browser_navigate there so LIVE updates. "
+                "Do not use shell. desk_write findings before finish."
+            )
+    # Early write nudge for image/shopping shortlist — don't burn all steps clicking
     if (job.get('stage_id') or '') in ('images', 'shortlist'):
         user += (
-            "\n\nBy step ~8 you MUST desk_write the shortlist/images file for this stage "
-            "even if imperfect — then finish. Do not click forever."
+            "\n\nBy step ~10 you MUST desk_write the shortlist/images file for this stage "
+            "with real https links — even if imperfect — then finish. "
+            "Do not click forever. Do not write an empty file."
         )
     messages = [
         {'role': 'system', 'content': system},
@@ -472,7 +579,7 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
                 messages.append({'role': 'user', 'content': 'Use a tool or call finish.'})
                 continue
             if browse:
-                ok, reason = _browse_ready(list((store.get_job(job['id']) or {}).get('tool_trace') or []))
+                ok, reason = _browse_ready(list((store.get_job(job['id']) or {}).get('tool_trace') or []), job)
                 # Model often narrates "Job complete" / finish(...) without a tool call
                 doneish = bool(re.search(
                     r'\b(job complete|done|finished|finish\s*\()', content or '', re.I))
@@ -515,7 +622,7 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
 
             # Gate finish on browse requirements + on-brief deliverable
             if name == 'finish' and browse:
-                ok, reason = _browse_ready(list((store.get_job(job['id']) or {}).get('tool_trace') or []))
+                ok, reason = _browse_ready(list((store.get_job(job['id']) or {}).get('tool_trace') or []), job)
                 if ok:
                     ok2, reason2 = _deliverable_matches_brief(store.get_job(job['id']) or job)
                     if not ok2:
@@ -569,7 +676,8 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
             # After a successful research write: auto-finish ONLY for simple on-brief jobs.
             if browse and name == 'desk_write' and isinstance(result, dict) and result.get('ok'):
                 ok, _reason = _browse_ready(
-                    list((store.get_job(job['id']) or {}).get('tool_trace') or [])
+                    list((store.get_job(job['id']) or {}).get('tool_trace') or []),
+                    job,
                 )
                 on_brief, brief_reason = _deliverable_matches_brief(
                     store.get_job(job['id']) or job, result,
@@ -646,8 +754,12 @@ def run_job(store: Store, brain: Brain, job: dict) -> None:
                     'role': 'user',
                     'content': (
                         'STOP repeating that tool. Use a different approach: '
-                        'web_research or browser_content, desk_write findings, then finish. '
-                        'Do not use shell with stdin.'
+                        + (
+                            'browser_navigate to a product URL, browser_content, desk_write, then finish. '
+                            if _is_shopping_job(job) else
+                            'web_research or browser_navigate, desk_write findings, then finish. '
+                        )
+                        + 'Do not use shell with stdin.'
                     ),
                 })
                 recent_sigs.clear()

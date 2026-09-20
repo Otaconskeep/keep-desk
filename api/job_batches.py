@@ -74,7 +74,8 @@ def _is_shopping_mission(low: str) -> bool:
         k in low
         for k in (
             'roaster', 'roasters', 'coffee', 'beans', 'bag of', 'shoes',
-            'amazon', 'cart', 'checkout', 'trade study', 'tucson',
+            'amazon', 'newegg', 'ebay', 'cart', 'checkout', 'trade study', 'tucson',
+            'homelab', 'mini pc', 'optiplex', 'under $', 'listing',
         )
     )
 
@@ -230,10 +231,12 @@ def plan_stages(*, title: str, brief: str, pipeline_id: str | None = None) -> li
             'id': 'shortlist',
             'label': 'Shortlist',
             'focus': (
-                f'Research and name the top 3 matches the parent goal asks for. '
-                f'desk_write {rd}/shortlist.md with: name, one-line why, and a URL for each. '
-                f'NEVER read workspace/research/pipeline_*.md (legacy — forbidden). '
-                f'Then finish. Do NOT pick bags or use a cart yet.'
+                f'browser_navigate to Amazon/Newegg search for what the parent goal asks '
+                f'(LIVE must leave NO SIGNAL — do NOT use web_research-only). '
+                f'browser_content / click listings. Name the top matches (at least 3, prefer 5). '
+                f'desk_write {rd}/shortlist.md with: name, one-line why, https URL, ballpark $ for each. '
+                f'NEVER write an empty shortlist. NEVER read workspace/research/pipeline_*.md. '
+                f'Then finish. Do NOT pick SKUs or use a cart yet.'
             ),
         })
         if wants_picks:
@@ -242,8 +245,9 @@ def plan_stages(*, title: str, brief: str, pipeline_id: str | None = None) -> li
                 'label': 'Pick products',
                 'focus': (
                     f'Read ONLY {rd}/shortlist.md. '
-                    f'Find ONE concrete product/bag/SKU page per shortlisted place. '
-                    f'desk_write {rd}/picks.md with name, URL, ballpark price if visible. '
+                    f'browser_navigate into ONE concrete product/listing page per shortlisted option '
+                    f'(prefer /dp/ or product pages — not only /s?k= search SERPs). '
+                    f'desk_write {rd}/picks.md with name, concrete URL, ballpark price if visible. '
                     f'Then finish. No trade study or cart yet.'
                 ),
             })
@@ -255,6 +259,7 @@ def plan_stages(*, title: str, brief: str, pipeline_id: str | None = None) -> li
                 'label': 'Trade study',
                 'focus': (
                     f'Read ONLY {rd}/picks.md (and shortlist). '
+                    f'browser_navigate to the leading candidate’s listing so LIVE shows a real product page. '
                     f'Do a real trade study — not a cart note.\n\n'
                     f'{lock}\n\n'
                     f'desk_write {rd}/recommendation.md with ALL of: '
