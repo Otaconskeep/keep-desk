@@ -7,7 +7,7 @@ Designed by **Antonio G. Garcia** ([Otaconskeep](https://github.com/Otaconskeep)
 | | |
 |---|---|
 | **Public page** | https://otaconskeep.github.io/keepdesk/ |
-| **YouTube Short** | https://www.youtube.com/shorts/2DsgEbgGDYI |
+| **YouTube demo** | https://youtu.be/-LDbRglJxZg |
 | **Install** | **Supporter vault** (Buy Me a Coffee) — not public |
 | **Claimable score** | **91.6%** (critical gate PASS) |
 | **Visibility** | **Private repository** |
@@ -16,9 +16,7 @@ Designed by **Antonio G. Garcia** ([Otaconskeep](https://github.com/Otaconskeep)
 
 ## Demo
 
-**YouTube Short:** [Keep Desk demo](https://www.youtube.com/shorts/2DsgEbgGDYI) — LIVE pages, handoffs, Done + Why.
-
-Longer soda-mission cut + stills: [`demo/`](./demo/) on this repo (supporters).
+**YouTube:** [Keep Desk demo](https://youtu.be/-LDbRglJxZg) — Command Deck, LIVE, handoffs, Done + Why.
 
 ---
 

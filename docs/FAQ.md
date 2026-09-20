@@ -76,7 +76,7 @@ When a job is actively browsing, LIVE should reflect the browser service. When i
 
 ## Where is the demo?
 
-[`demo/keep_soda_demo.mp4`](../demo/keep_soda_demo.mp4) and [`demo/shots/`](../demo/shots/) — clean soda mission (images → pick → YouTube → Ogden store), no poisoned coffee cart.
+https://youtu.be/-LDbRglJxZg — also embedded at the bottom of the public Keep Desk page.
 
 ## How do I install?
 
