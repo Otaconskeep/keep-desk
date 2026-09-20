@@ -1,131 +1,60 @@
 # Keep Desk
 
-**Local multi-agent work deck** — named AI teammates that share one always-on computer, run jobs in the background, browse the real web, write files, and brief you like an operator — **on your hardware, with your Ollama model, for free.**
+**Local multi-agent Command Deck** — named AI teammates, shared desk, browser computer-use, Ollama-only brain.
 
 Designed by **Antonio G. Garcia** ([Otaconskeep](https://github.com/Otaconskeep)).
 
 | | |
 |---|---|
-| **Live UI (reference Keep)** | `http://192.168.50.219:5765/` |
-| **Claimable parity score** | **91.6%** (weighted systems-test matrix; critical gate PASS) |
-| **License** | Use / fork freely for homelab & research (see Doctrine) |
-| **Demo** | [`demo/keep_soda_demo.mp4`](./demo/keep_soda_demo.mp4) · [shots](./demo/shots/) |
+| **Public page** | https://otaconskeep.github.io/keepdesk/ |
+| **Install** | **Supporter vault** (Buy Me a Coffee) — not public |
+| **Claimable score** | **91.6%** (critical gate PASS) |
+| **Visibility** | **Private repository** |
 
 ---
 
-## Why it exists
+## Access
 
-Cloud “AI teammates” (Grok Bot, OpenAI Operator / ChatGPT computer-use agents) are exciting — and they also mean:
+This repo is **private**. Install instructions unlock on the public Keep Desk page after you support the project:
 
-- your work lives on someone else’s computer  
-- your browsing and files sit behind a vendor account  
-- you pay subscription + usage, forever  
-- you can’t inspect the agent loop when it carts the wrong product  
+1. Buy Me a Coffee → https://www.buymeacoffee.com/otaconskeep  
+2. Put your Discord handle in the BMC note  
+3. Antonio issues access name / password / PIN  
+4. Unlock **Install Vault** at https://otaconskeep.github.io/keepdesk/#vault  
+5. Request GitHub invite if clone 404s (Discord + access name)
 
-**Keep Desk** is OtaconsKeep’s answer: a **local Grok Bot–class control plane** that runs on a home GPU box (reference: RTX 3090 + Ollama `gpt-oss:20b`). Same *idea* — persistent bots, shared desk, browser computer-use, skills, routines, approvals — without the cloud landlord.
-
-It’s also **fun**. You open a cinematic Command Deck, transmit an order, watch LIVE browser snow turn into real pages, and get a mission report with a Why dossier. When it fails, it fails *honestly* (hollow / off-brief) instead of smiling “Complete” over coffee when you asked for soda.
-
----
-
-## What you get
-
-- **Named fleet** — ENGINEER / QA / RESEARCHER / PM (extendable), auto-routed from natural language  
-- **Shared desk** — one filesystem + shell + persistent Chromium for all bots (`/desk`)  
-- **Jobs & pipelines** — multipart briefs split into stages with **namespaced** research folders  
-- **Command Deck UI** — briefing-first home, codec bar, LIVE pane, Why / Batch popups  
-- **Approvals** — destructive desk actions pause for you  
-- **Skills & routines** — teachable workflows + cron-like schedules  
-- **Local brain only** — refuses cloud LLM endpoints by design  
+**Premium seats** also unlock the Keep Desk vault (same license table).
 
 ---
 
-## Quick start
+## Quick install (supporters with repo access)
 
 ```bash
 git clone https://github.com/Otaconskeep/keep-desk.git
 cd keep-desk
 cp .env.example .env
-# Edit LOCAL_OLLAMA_URL / LOCAL_MODEL if needed
+# Edit LOCAL_OLLAMA_URL / LOCAL_MODEL
+ollama pull gpt-oss:20b
 docker compose up -d --build
+# http://127.0.0.1:5765/
 ```
 
-Open **http://127.0.0.1:5765/**
-
-Full install: **[INSTALL.md](./INSTALL.md)**  
-Comparisons: **[docs/COMPARISON.md](./docs/COMPARISON.md)**  
-FAQ: **[docs/FAQ.md](./docs/FAQ.md)**  
-Benchmarks: **[docs/COMPLIANCE_MATRIX.md](./docs/COMPLIANCE_MATRIX.md)**
+Full guide: [INSTALL.md](./INSTALL.md) · Comparison: [docs/COMPARISON.md](./docs/COMPARISON.md) · FAQ: [docs/FAQ.md](./docs/FAQ.md)
 
 ---
 
-## Demo (soda mission)
+## Why it exists
 
-A clean end-to-end run — Google soda images → pick winner → YouTube synopsis → Ogden, UT store — with Command Deck screenshots and a ~23 MB slideshow video:
-
-- Video: [`demo/keep_soda_demo.mp4`](./demo/keep_soda_demo.mp4)  
-- Stills: [`demo/shots/`](./demo/shots/)  
-- Artifacts: [`demo/research/`](./demo/research/)  
+Cloud “AI teammates” (Grok Bot, OpenAI Operator / Pilot) are exciting — and they also mean your work lives on someone else’s computer. Keep Desk is the homelab answer: same genre, your hardware, honest failure modes.
 
 ---
 
-## Honest limitations (read this)
+## Honest limitations
 
-Keep Desk is **~75% of day-to-day Grok Bot feel**, and **~91.6% claimable** on the *requirements we defined and tested*. That is **not** “we are Grok.”
-
-| Ahead / strong | Behind / missing |
-|---|---|
-| Local-only brain, no cloud bill | No Firecracker / vendor cloud VM |
-| Named multi-agent ops UI + briefing | No native iOS/Android apps (by choice) |
-| Browser L5-prod gate evidence | Full desktop GUI agent (C-09 **FAIL**) |
-| Shared always-on desk on your NAS/GPU | True parallel bots still **PARTIAL** |
-| Approvals + REX doctrine for prod Keep | Broad connector marketplace (Slack/GitHub listeners) **PARTIAL / NOT_TESTED** |
-| Off-brief detection (won’t celebrate wrong cart) | Smaller local models write thinner prose than frontier cloud |
-
-Full honesty table: [docs/COMPARISON.md](./docs/COMPARISON.md).
-
----
-
-## Architecture (one glance)
-
-```
-Operator → Command Deck (:5765)
-              ↓
-         keep-bots-api  →  jobs / bots / briefing / approvals
-              ↓
-       keep-bots-worker →  Ollama (local) + tools
-              ↓
-   keep-desk-browser (:5766) + /desk volume (files, memory, screenshots)
-```
-
-Production Keep writes (media, HA, Arr) still go through **REX + Hermes** — bots are workers, not a security boundary.
-
----
-
-## Benchmarks (systems-test)
-
-Authoritative scorer: `python3 api/compliance_score.py`
-
-| Metric | Value (2026-09-19 reference Keep) |
-|---|---|
-| RAW | 87.3% |
-| WEIGHTED | **91.6%** |
-| CRITICAL_GATE | **PASS** |
-| CLAIMABLE | **91.6** |
-| PASS / PARTIAL / FAIL / NOT_TESTED | 69 / 5 / 5 / 10 |
-
-Browser: BROW-L3/L4 PASS · L5-prod Gate PASS (51 authed @ 90.2%, HIR 2.1%) · L6 endurance in progress.
-
----
-
-## Related OtaconsKeep projects
-
-- [Otaconskeep site](https://github.com/Otaconskeep/otaconskeep-site)  
-- [KeepRoute](https://github.com/Otaconskeep/KeepRoute) — mission orchestration  
-- [otacons-ai-ecosystem](https://github.com/Otaconskeep/otacons-ai-ecosystem) — Lite install  
+Browser-first (not full desktop GUI). Local model quality ≠ frontier cloud. Bots are workers — gate money and public posts. See docs/COMPARISON.md.
 
 ---
 
 ## Doctrine
 
-Bots share one desk — **not** isolation. You are the principal. Have fun, break things on purpose, and keep production mutations on REX.
+Bots share one desk — not isolation. You are the principal.

@@ -6,8 +6,9 @@ A **local multi-agent work deck**: named AI bots share one computer (files, shel
 
 ## Is it free?
 
-**Software:** yes — clone and run.  
-**Cost to you:** electricity, disk, and optional GPU. No xAI/OpenAI subscription required for the core loop.
+**Runtime:** no required OpenAI/xAI bill — Ollama on your hardware.  
+**Access:** the GitHub repo is **private**. Install instructions unlock via **Buy Me a Coffee** on the public Keep Desk page (same licensed seats as Otaconskeep Premium).  
+**Cost to you:** BMC support + electricity/GPU.
 
 ## How is this like Grok Bot?
 
