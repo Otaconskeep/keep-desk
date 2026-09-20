@@ -20,15 +20,50 @@ def research_dir(pipeline_id: str) -> str:
     return f'workspace/research/{pid}'
 
 
-def _is_image_media_mission(low: str) -> bool:
-    return any(
+def _is_simple_browse_write(low: str) -> bool:
+    """Single browse + write a named file — must NOT become image/soda pipelines.
+
+    Catches demos like: browse Wikipedia Arizona, write yt_demo_arizona.md summary.
+    'YouTube demo' / 'summary' alone are NOT enough to imply image shortlist.
+    """
+    has_browse = any(k in low for k in ('browse ', 'open http', 'go to http', 'wikipedia', 'wiki/'))
+    has_write = any(k in low for k in ('desk_write', 'write workspace/', 'write file', '.md with'))
+    imageish = any(
         k in low
         for k in (
             'image', 'images', 'photo', 'photos', 'picture', 'pictures',
-            'soda', 'pexels', 'unsplash', 'screenshot', 'google find',
-            'youtube', 'synopsis',
+            'soda', 'pexels', 'unsplash', 'shortlist', 'google images',
+            'find three', '3 images', 'three images',
         )
-    ) and not any(
+    )
+    return has_browse and has_write and not imageish
+
+
+def _is_image_media_mission(low: str) -> bool:
+    """True only for explicit image/soda/media shortlist missions.
+
+    Do NOT treat 'youtube' or 'summary' alone as image missions — that misfires
+    on wiki summary demos and forces soda/image stages + fake store dossiers.
+    """
+    if _is_simple_browse_write(low):
+        return False
+    strong = any(
+        k in low
+        for k in (
+            'image', 'images', 'photo', 'photos', 'picture', 'pictures',
+            'soda', 'cola', 'pexels', 'unsplash', 'screenshot', 'google find',
+            'google images', 'image shortlist', 'find three', '3 images',
+            'three images', 'shortlist',
+        )
+    )
+    # YouTube/synopsis only count when paired with product/media hunt language
+    yt_media = any(k in low for k in ('youtube', 'synopsis')) and any(
+        k in low
+        for k in ('soda', 'product', 'image', 'photo', 'pick', 'winner', 'store', 'buy')
+    )
+    if not (strong or yt_media):
+        return False
+    return not any(
         k in low
         for k in ('roaster', 'coffee beans', 'add to cart', 'checkout')
     )
@@ -96,6 +131,19 @@ def plan_stages(*, title: str, brief: str, pipeline_id: str | None = None) -> li
     rd = research_dir(pipeline_id) if pipeline_id else '{RESEARCH}'
 
     raw: list[dict[str, str]] = []
+
+    # —— Simple browse → write file: NEVER split on "then" into image/soda steps ——
+    if _is_simple_browse_write(low):
+        return [{
+            'id': 'main',
+            'label': 'Main',
+            'brief': (
+                f'{parent}\n\n'
+                'Operator note: use browser_navigate + browser_content so LIVE updates. '
+                'Do NOT invent image shortlists, soda picks, product dossiers, or store carts. '
+                'Write the requested file, then finish.'
+            ),
+        }]
 
     # —— Media / image → pick → YouTube → local store (NOT cart) ——
     if _is_image_media_mission(low):
