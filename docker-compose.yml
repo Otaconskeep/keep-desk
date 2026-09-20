@@ -1,0 +1,77 @@
+# Keep Desk — local multi-agent work deck (Ollama-backed)
+# Requires: Docker, a local OpenAI-compatible LLM (Ollama recommended), ~8GB+ RAM
+# UI default: http://127.0.0.1:5765/
+
+services:
+  keep-desk-browser:
+    build:
+      context: .
+      dockerfile: desk/Dockerfile.browser
+    container_name: keep-desk-browser
+    restart: unless-stopped
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DESK_ROOT: /desk
+    volumes:
+      - keep_desk_data:/desk
+      - ./api/browser_service.py:/app/browser_service.py:ro
+    ports:
+      - "5766:5766"
+    networks: [keep-bots]
+
+  keep-bots-api:
+    build:
+      context: .
+      dockerfile: desk/Dockerfile
+    container_name: keep-bots-api
+    restart: unless-stopped
+    working_dir: /app
+    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "5765"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DESK_ROOT: /desk
+      STATE_DIR: /desk/state
+      LOCAL_OLLAMA_URL: ${LOCAL_OLLAMA_URL:-http://host.docker.internal:11434/v1}
+      LOCAL_MODEL: ${LOCAL_MODEL:-gpt-oss:20b}
+      BROWSER_URL: http://keep-desk-browser:5766
+      APPROVALS_REQUIRED: "true"
+    ports:
+      - "5765:5765"
+    volumes:
+      - keep_desk_data:/desk
+      - ./api:/app:ro
+    networks: [keep-bots]
+    depends_on: [keep-desk-browser]
+
+  keep-bots-worker:
+    build:
+      context: .
+      dockerfile: desk/Dockerfile
+    container_name: keep-bots-worker
+    restart: unless-stopped
+    working_dir: /app
+    command: ["python", "worker.py"]
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      DESK_ROOT: /desk
+      STATE_DIR: /desk/state
+      LOCAL_OLLAMA_URL: ${LOCAL_OLLAMA_URL:-http://host.docker.internal:11434/v1}
+      LOCAL_MODEL: ${LOCAL_MODEL:-gpt-oss:20b}
+      BROWSER_URL: http://keep-desk-browser:5766
+      APPROVALS_REQUIRED: "true"
+      KEEP_BOTS_BROWSE_MAX_STEPS: "40"
+    volumes:
+      - keep_desk_data:/desk
+      - ./api:/app:ro
+    networks: [keep-bots]
+    depends_on: [keep-bots-api, keep-desk-browser]
+
+volumes:
+  keep_desk_data:
+
+networks:
+  keep-bots:
+    name: keep-bots

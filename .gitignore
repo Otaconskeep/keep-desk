@@ -1,0 +1,7 @@
+.env
+**/__pycache__/
+*.pyc
+secrets/
+*.local.json
+live_auth*
+browser_auth*

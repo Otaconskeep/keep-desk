@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>OtaconsKeep — Command Deck</title>
+  <meta name="description" content="OtaconsKeep AI operator deck — cinematic briefing, workspace, live browser." />
+  <link rel="stylesheet" href="/static/css/tokens.css" />
+  <link rel="stylesheet" href="/static/css/components.css" />
+  <link rel="stylesheet" href="/static/css/shell.css" />
+  <link rel="stylesheet" href="/static/css/pages.css" />
+</head>
+<body>
+  <div id="app">
+    <aside class="rail" aria-label="Primary">
+      <button class="brand" type="button" title="OtaconsKeep" aria-label="Briefing">✦</button>
+      <nav class="nav">
+        <button class="nav-btn active" data-page="briefing" data-tip="Briefing" aria-label="Briefing"></button>
+        <button class="nav-btn" data-page="workspace" data-tip="Workspace" aria-label="Workspace"></button>
+        <button class="nav-btn" data-page="browser" data-tip="Browser" aria-label="Browser Worker"></button>
+        <button class="nav-btn" data-page="work" data-tip="Work" aria-label="Workstreams"></button>
+        <button class="nav-btn" data-page="intel" data-tip="Intel" aria-label="Intel"></button>
+      </nav>
+      <div class="rail-foot">
+        <div id="sys-dot" class="sys-dot" title="System link"></div>
+      </div>
+    </aside>
+
+    <div class="deck">
+      <header class="topbar">
+        <div class="topbar-id">
+          <div id="page-title" class="page-label">Briefing</div>
+          <div id="page-meta" class="page-meta">What matters right now</div>
+        </div>
+        <div class="topbar-right">
+          <div class="live-chip"><span class="blink"></span><span id="live-status">linking…</span></div>
+          <button class="btn btn-ghost btn-sm" id="refresh-btn" type="button">Refresh</button>
+        </div>
+      </header>
+
+      <main class="stage">
+        <div class="stage-inner">
+
+          <section id="page-briefing" class="page active fade-in">
+            <div class="hx-home">
+              <header class="hx-top">
+                <div class="hx-wordart" aria-label="OtaconsKeep">OtaconsKeep</div>
+                <div class="hx-pills" id="home-status-strip"></div>
+                <button type="button" class="hx-attn" id="hx-attn" data-action="open-approvals" data-level="green">
+                  <span class="hx-attn-dot"></span>
+                  <span class="hx-attn-lab" id="hx-attn-lab">Clear</span>
+                </button>
+              </header>
+
+              <div class="hx-stage">
+                <article class="hx-card" id="briefing-hero">
+                  <p class="hx-kicker" id="brief-speaker-label">Mission</p>
+                  <h1 class="hx-title" id="home-headline">Standing by</h1>
+                  <p class="hx-result" id="home-lede">Ready when you are.</p>
+                  <h2 class="sr-only" id="brief-headline">Standing by</h2>
+                  <span class="sr-only" id="brief-confidence">—</span>
+                  <span class="sr-only" id="brief-speaker-mark">KD</span>
+
+                  <section class="hx-dod" id="dod-card">
+                    <div class="hx-dod-top">
+                      <h3>Done when</h3>
+                      <span id="dod-state">—</span>
+                    </div>
+                    <ul class="hx-dod-list" id="dod-list"></ul>
+                  </section>
+
+                  <div id="briefing-body" class="hx-body"></div>
+                  <div class="hx-actions" id="briefing-actions"></div>
+                </article>
+
+                <aside class="hx-rail" aria-label="Open">
+                  <button type="button" class="hx-ico" data-action="open-rationale" data-sfx="click" title="Why">
+                    <span>Why</span>
+                  </button>
+                  <button type="button" class="hx-ico" data-action="open-batch" data-sfx="click" title="Batches">
+                    <span>Batch</span>
+                  </button>
+                  <button type="button" class="hx-ico" data-action="go-browser" data-sfx="click" title="Live view">
+                    <span>Live</span>
+                  </button>
+                  <button type="button" class="hx-ico" data-action="go-work" data-sfx="click" title="Work">
+                    <span>Work</span>
+                  </button>
+                  <div class="hx-live" id="hx-live">
+                    <img id="home-mon-img" alt="" />
+                    <div class="nosignal-overlay"><span>No signal</span></div>
+                    <div class="hx-live-meta">
+                      <span id="home-mon-url">—</span>
+                      <span id="home-mon-cap"></span>
+                    </div>
+                  </div>
+                </aside>
+              </div>
+
+              <!-- legacy mounts -->
+              <div id="home-bg" class="sr-only"></div>
+              <div id="home-widgets" class="sr-only"></div>
+              <div id="brief-feed" class="sr-only"></div>
+              <div id="brief-detail-panel" class="sr-only"></div>
+              <div id="brief-detail-toggle" class="sr-only"></div>
+              <div id="brief-active-body" class="sr-only"></div>
+              <div id="brief-meaning" class="sr-only"></div>
+            </div>
+          </section>
+
+          <section id="page-workspace" class="page fade-in">
+            <div class="workspace-layout">
+              <div class="workspace-stream-col">
+                <div class="workspace-stream-head">
+                  <h1>Command Channel</h1>
+                  <p>Talk · read reports · watch progress. Links show a live screenshot beside them.</p>
+                </div>
+                <div class="workspace-stream" id="ws-stream"></div>
+              </div>
+              <aside class="workspace-side">
+                <div class="bevel bevel-live" id="ws-task">
+                  <h2 class="widget-label">Active task</h2>
+                  <div id="ws-task-body" class="quiet-copy">No live task</div>
+                </div>
+                <div class="bevel" id="ws-fleet">
+                  <h2 class="widget-label">Fleet</h2>
+                  <div id="ws-fleet-body"></div>
+                </div>
+                <div class="bevel bevel-ice">
+                  <h2 class="widget-label">Live view</h2>
+                  <div class="link-card-shot" style="min-height:120px;margin-top:0.5rem">
+                    <img id="ws-live-shot" alt="Live" src="/api/browser/viewport.png" />
+                    <span class="shot-badge">live</span>
+                  </div>
+                </div>
+              </aside>
+            </div>
+          </section>
+
+          <section id="page-browser" class="page fade-in page-browser">
+            <div class="bw-station">
+              <div class="bw-monitor">
+                <div class="bw-bezel">
+                  <div class="bw-bezel-top">
+                    <span class="bw-led"></span>
+                    <span class="bw-bezel-title">KEEP DESK · LIVE VIEWPORT</span>
+                    <span class="bw-bezel-url" id="bw-url">—</span>
+                  </div>
+                  <div class="bw-screen">
+                    <img class="viewport-img" id="bw-img" alt="Browser viewport" />
+                    <div class="viewport-placeholder" id="bw-placeholder">
+                      <span>Live machine work appears here</span>
+                      <span class="mono">streaming · /api/browser/viewport.png</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="bw-strip" id="bw-strip"></div>
+              </div>
+              <aside class="bw-intel">
+                <div class="bw-intel-block">
+                  <h2>Objective</h2>
+                  <p id="bw-objective">—</p>
+                </div>
+                <div class="bw-intel-block">
+                  <h2>Session</h2>
+                  <div id="bw-auth" class="auth-line clear">Checking…</div>
+                </div>
+                <div class="bw-intel-block">
+                  <h2>Page understanding</h2>
+                  <div class="bw-title" id="bw-title">—</div>
+                  <div class="bw-narration" id="bw-trace"></div>
+                </div>
+                <div class="bw-intel-block">
+                  <h2>Checkpoints</h2>
+                  <div id="bw-checkpoints"></div>
+                </div>
+                <button class="btn btn-ghost" id="shot-btn" type="button">Capture frame</button>
+              </aside>
+            </div>
+          </section>
+
+          <section id="page-work" class="page fade-in">
+            <div class="work-layout">
+              <div>
+                <header class="section-lead">
+                  <h1>Workstreams</h1>
+                  <p>Hand work to a bot. Track it. Expand a card for the full trace.</p>
+                </header>
+                <div id="task-list"></div>
+              </div>
+              <div>
+                <div class="bevel compose">
+                  <h2>Assign work</h2>
+                  <p class="quiet-copy" style="margin:0 0 0.75rem">Fleet auto-routes from the brief (research → RESEARCHER, code → ENGINEER).</p>
+                  <select id="task-bot" class="sr-only" tabindex="-1" aria-hidden="true"></select>
+                  <div class="field">
+                    <label for="task-title">Title</label>
+                    <input id="task-title" placeholder="What should happen?" />
+                  </div>
+                  <div class="field">
+                    <label for="task-brief">Brief</label>
+                    <textarea id="task-brief" placeholder="Plain-language instructions — include criteria if this is a trade study"></textarea>
+                  </div>
+                  <button class="btn btn-primary" id="assign-btn" type="button">Dispatch</button>
+                </div>
+                <div class="bevel" style="margin-top:1.25rem;padding:1.25rem" id="task-detail">
+                  <div class="quiet-copy">Select a workstream</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="page-intel" class="page fade-in">
+            <header class="section-lead">
+              <h1>Intel</h1>
+              <p>Memory and evidence — open a row for detail.</p>
+            </header>
+            <div class="intel-grid" id="mem-cards"></div>
+            <div class="bevel" style="margin-top:1.5rem;padding:0;overflow:hidden">
+              <div style="padding:1rem 1.25rem 0"><h2 class="widget-label">Evidence</h2></div>
+              <div id="mem-evidence"></div>
+            </div>
+          </section>
+
+        </div>
+      </main>
+
+      <footer class="command-bar codec-bar" aria-label="Codec">
+        <div class="command-bar-inner codec-inner">
+          <div class="codec-portrait" title="Otacon" aria-hidden="true">
+            <svg viewBox="0 0 64 64" width="44" height="44">
+              <defs>
+                <linearGradient id="otg" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stop-color="#9adcff"/>
+                  <stop offset="100%" stop-color="#5ec8ff"/>
+                </linearGradient>
+              </defs>
+              <rect x="4" y="8" width="56" height="48" rx="2" fill="#0a1220" stroke="url(#otg)" stroke-width="2"/>
+              <circle cx="32" cy="28" r="10" fill="none" stroke="url(#otg)" stroke-width="2"/>
+              <path d="M18 48c4-8 10-12 14-12s10 4 14 12" fill="none" stroke="url(#otg)" stroke-width="2"/>
+              <rect x="22" y="14" width="20" height="4" fill="#e8a45a"/>
+            </svg>
+          </div>
+          <div class="codec-meta">
+            <div class="codec-freq">CODEC · CH-1</div>
+            <div class="codec-sub">Auto-routed fleet · local uplink</div>
+          </div>
+          <select id="ask-bot" class="command-bot sr-only" title="Agent" tabindex="-1" aria-hidden="true"></select>
+          <input id="ask-input" type="text" placeholder="Transmit order…" autocomplete="off" />
+          <button class="btn btn-ghost btn-sm" id="ask-desk-btn" type="button" data-sfx="click">Desk</button>
+          <button class="btn btn-primary btn-sm" id="ask-send-btn" type="button" data-sfx="ok">Send</button>
+        </div>
+      </footer>
+    </div>
+
+    <aside class="context" aria-label="Attention">
+      <div class="context-head">
+        <h2>Attention</h2>
+        <p>Approvals · live work · meaning</p>
+      </div>
+      <div class="context-body" id="context-body"></div>
+    </aside>
+  </div>
+
+  <textarea id="codec-text" class="sr-only" aria-hidden="true"></textarea>
+  <button id="codec-desk-btn" class="sr-only" type="button" tabindex="-1"></button>
+  <button id="codec-bridge-btn" class="sr-only" type="button" tabindex="-1"></button>
+
+  <div class="sheet-backdrop" id="approvals-sheet" aria-hidden="true">
+    <div class="sheet" role="dialog" aria-label="Approvals">
+      <h2>Approvals</h2>
+      <p class="sheet-sub">Waiting on you before bots continue.</p>
+      <div id="approvals-sheet-body"></div>
+      <button class="btn btn-ghost" type="button" id="approvals-sheet-close" style="margin-top:1.25rem">Close</button>
+    </div>
+  </div>
+
+  <div class="popup-backdrop" id="detail-popup" aria-hidden="true">
+    <div class="popup" role="dialog" aria-label="Detail">
+      <h2 id="detail-popup-title">Detail</h2>
+      <p class="popup-sub" id="detail-popup-sub"></p>
+      <div id="detail-popup-body"></div>
+      <button class="btn btn-ghost" type="button" id="detail-popup-close" style="margin-top:1.5rem">Close</button>
+    </div>
+  </div>
+
+  <script id="keep-boot" type="application/json">null</script>
+  <script src="/static/js/api.js"></script>
+  <script src="/static/js/app.js"></script>
+</body>
+</html>

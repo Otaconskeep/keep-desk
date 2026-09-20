@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Keep Desk — Local Grok Bot</title>
+  <style>
+    :root {
+      --bg: #0e1116;
+      --panel: #161b22;
+      --line: #2a3340;
+      --text: #e6edf3;
+      --muted: #8b9bb0;
+      --accent: #3d8bfd;
+      --ok: #3fb950;
+      --warn: #d29922;
+      --bad: #f85149;
+      --font: "IBM Plex Sans", "Segoe UI", sans-serif;
+      --mono: "IBM Plex Mono", ui-monospace, monospace;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0; min-height: 100vh;
+      background:
+        radial-gradient(1200px 600px at 10% -10%, #1a2740 0%, transparent 55%),
+        radial-gradient(900px 500px at 100% 0%, #1b1528 0%, transparent 50%),
+        var(--bg);
+      color: var(--text);
+      font: 15px/1.45 var(--font);
+    }
+    header {
+      padding: 1.25rem 1.5rem 0.75rem;
+      border-bottom: 1px solid var(--line);
+      display: flex; gap: 1rem; align-items: baseline; flex-wrap: wrap;
+    }
+    header h1 {
+      margin: 0; font-size: 1.35rem; letter-spacing: 0.04em;
+      font-weight: 600;
+    }
+    header .tag {
+      color: var(--muted); font-size: 0.85rem;
+    }
+    main {
+      display: grid;
+      grid-template-columns: 280px 1fr 320px;
+      gap: 1rem;
+      padding: 1rem 1.5rem 2rem;
+      max-width: 1400px;
+    }
+    @media (max-width: 980px) {
+      main { grid-template-columns: 1fr; }
+    }
+    .panel {
+      background: color-mix(in srgb, var(--panel) 92%, transparent);
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      padding: 0.9rem 1rem;
+    }
+    .panel h2 {
+      margin: 0 0 0.75rem;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--muted);
+      font-weight: 600;
+    }
+    .bot {
+      display: flex; gap: 0.65rem; align-items: flex-start;
+      padding: 0.55rem 0.4rem;
+      border-bottom: 1px solid var(--line);
+      cursor: pointer;
+    }
+    .bot:hover { background: #1c2430; }
+    .bot.active { background: #1e2a3d; }
+    .swatch {
+      width: 10px; height: 10px; border-radius: 2px; margin-top: 5px; flex: none;
+    }
+    .bot .name { font-weight: 600; font-size: 0.95rem; }
+    .bot .role { color: var(--muted); font-size: 0.8rem; }
+    label { display: block; font-size: 0.75rem; color: var(--muted); margin: 0.5rem 0 0.2rem; }
+    input, select, textarea {
+      width: 100%;
+      background: #0d1117;
+      border: 1px solid var(--line);
+      color: var(--text);
+      border-radius: 6px;
+      padding: 0.45rem 0.55rem;
+      font: inherit;
+    }
+    textarea { min-height: 90px; resize: vertical; font-family: var(--mono); font-size: 0.85rem; }
+    button {
+      margin-top: 0.75rem;
+      background: var(--accent);
+      color: #fff;
+      border: 0;
+      border-radius: 6px;
+      padding: 0.5rem 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    button.secondary { background: #30363d; }
+    button.ok { background: var(--ok); }
+    button.bad { background: var(--bad); }
+    .job {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 0.7rem 0.8rem;
+      margin-bottom: 0.6rem;
+      background: #0d1117;
+    }
+    .job .meta { color: var(--muted); font-size: 0.78rem; font-family: var(--mono); }
+    .status {
+      display: inline-block;
+      padding: 0.1rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    .s-queued { background: #21262d; color: #c9d1d9; }
+    .s-running { background: #1f3a5f; color: #79c0ff; }
+    .s-done { background: #1a3a24; color: #3fb950; }
+    .s-failed, .s-rejected { background: #3d1515; color: #f85149; }
+    .s-pending_approval { background: #3d2e10; color: #d29922; }
+    .log {
+      margin-top: 0.4rem;
+      max-height: 120px;
+      overflow: auto;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--muted);
+      white-space: pre-wrap;
+    }
+    .approval {
+      border-left: 3px solid var(--warn);
+      padding: 0.55rem 0.7rem;
+      margin-bottom: 0.55rem;
+      background: #161b22;
+    }
+    .row { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+    .health { margin-left: auto; font-size: 0.8rem; color: var(--muted); font-family: var(--mono); }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Keep Desk</h1>
+    <span class="tag">Local Grok Bot · OtaconsKeep · shared computer for AI teammates</span>
+    <span class="health" id="health">…</span>
+  </header>
+  <main>
+    <section class="panel">
+      <h2>Bots</h2>
+      <div id="bots"></div>
+    </section>
+    <section class="panel">
+      <h2>Assign work</h2>
+      <label>Bot</label>
+      <select id="bot_id"></select>
+      <label>Title</label>
+      <input id="title" placeholder="Inspect and summarize X" />
+      <label>Brief</label>
+      <textarea id="brief" placeholder="What should this Bot own?"></textarea>
+      <button id="assign">Hand to Bot</button>
+      <h2 style="margin-top:1.4rem">Jobs</h2>
+      <div id="jobs"></div>
+    </section>
+    <section class="panel">
+      <h2>Approvals</h2>
+      <div id="approvals"></div>
+      <h2 style="margin-top:1.2rem">Handoffs</h2>
+      <div id="handoffs"></div>
+    </section>
+  </main>
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let selectedBot = null;
+
+    async function api(path, opts) {
+      const r = await fetch(path, Object.assign({ headers: { 'Content-Type': 'application/json' } }, opts || {}));
+      if (!r.ok) throw new Error(await r.text());
+      return r.json();
+    }
+
+    function statusClass(s) {
+      return 'status s-' + (s || 'queued').replace(/\s+/g, '_');
+    }
+
+    async function refresh() {
+      const [health, bots, jobs, approvals, handoffs] = await Promise.all([
+        api('/api/health'),
+        api('/api/bots'),
+        api('/api/jobs'),
+        api('/api/approvals?status=pending'),
+        api('/api/handoffs'),
+      ]);
+      $('health').textContent =
+        `bots=${health.bots} queued=${health.queued} running=${health.running} approvals=${health.pending_approvals}`;
+
+      const sel = $('bot_id');
+      const prev = sel.value;
+      sel.innerHTML = '';
+      $('bots').innerHTML = '';
+      for (const b of bots.bots) {
+        const opt = document.createElement('option');
+        opt.value = b.id; opt.textContent = `${b.name} — ${b.role}`;
+        sel.appendChild(opt);
+        const el = document.createElement('div');
+        el.className = 'bot' + (selectedBot === b.id ? ' active' : '');
+        el.innerHTML = `<span class="swatch" style="background:${b.color||'#888'}"></span>
+          <div><div class="name">${b.name}</div><div class="role">${b.role}</div></div>`;
+        el.onclick = () => { selectedBot = b.id; sel.value = b.id; refresh(); };
+        $('bots').appendChild(el);
+      }
+      if (prev) sel.value = prev;
+      else if (selectedBot) sel.value = selectedBot;
+
+      $('jobs').innerHTML = '';
+      for (const j of jobs.jobs.slice(0, 40)) {
+        const el = document.createElement('div');
+        el.className = 'job';
+        const log = (j.log || []).slice(-6).map(x => x.line).join('\n');
+        el.innerHTML = `<div><span class="${statusClass(j.status)}">${j.status}</span>
+          <strong style="margin-left:.4rem">${j.title}</strong></div>
+          <div class="meta">${j.id} · ${j.bot_id} · ${j.updated_at||''}</div>
+          <div style="margin-top:.35rem;font-size:.88rem">${(j.result_summary||j.brief||'').slice(0,220)}</div>
+          <div class="log">${log}</div>`;
+        $('jobs').appendChild(el);
+      }
+
+      $('approvals').innerHTML = '';
+      if (!approvals.approvals.length) {
+        $('approvals').innerHTML = '<div class="role">None pending</div>';
+      }
+      for (const a of approvals.approvals) {
+        const el = document.createElement('div');
+        el.className = 'approval';
+        el.innerHTML = `<div class="meta">${a.id} · ${a.bot_id} · ${a.action}</div>
+          <div style="font-size:.88rem;margin:.3rem 0">${a.detail}</div>
+          <div class="row">
+            <button class="ok" data-id="${a.id}" data-ok="1">Approve</button>
+            <button class="bad" data-id="${a.id}" data-ok="0">Reject</button>
+          </div>`;
+        el.querySelectorAll('button').forEach(btn => {
+          btn.onclick = async () => {
+            await api(`/api/approvals/${btn.dataset.id}/resolve`, {
+              method: 'POST',
+              body: JSON.stringify({ approve: btn.dataset.ok === '1' }),
+            });
+            refresh();
+          };
+        });
+        $('approvals').appendChild(el);
+      }
+
+      $('handoffs').innerHTML = '';
+      for (const h of handoffs.handoffs.slice(0, 15)) {
+        const el = document.createElement('div');
+        el.className = 'job';
+        el.innerHTML = `<div class="meta">${h.from_bot} → ${h.to_bot}</div>
+          <div style="font-size:.88rem">${h.message.slice(0,180)}</div>`;
+        $('handoffs').appendChild(el);
+      }
+    }
+
+    $('assign').onclick = async () => {
+      const body = {
+        bot_id: $('bot_id').value,
+        title: $('title').value.trim() || 'Untitled job',
+        brief: $('brief').value.trim() || '(no brief)',
+      };
+      await api('/api/jobs', { method: 'POST', body: JSON.stringify(body) });
+      $('title').value = '';
+      $('brief').value = '';
+      refresh();
+    };
+
+    refresh();
+    setInterval(refresh, 3000);
+  </script>
+</body>
+</html>

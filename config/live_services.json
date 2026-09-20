@@ -1,0 +1,202 @@
+{
+  "$schema_note": "EXAMPLE only. Replace hostnames with your LAN services. No passwords. Auth via browser profile + human MFA takeover.",
+  "policy": {
+    "no_site_adapters": true,
+    "no_credential_storage": true,
+    "no_purchase": true,
+    "no_destructive": true,
+    "auth_mode": "human_takeover_on_boundary"
+  },
+  "services": [
+    {
+      "id": "nextcloud",
+      "type": "cloud_storage",
+      "base_url": "http://your-keep.local:8090/",
+      "host_url": "http://your-keep.local:8090/",
+      "auth": "session",
+      "safe_tasks": [
+        "list_files",
+        "upload_probe",
+        "download_probe"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "portainer",
+      "type": "dashboard_admin",
+      "base_url": "http://your-keep.local:9000/",
+      "host_url": "http://your-keep.local:9000/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home",
+        "list_endpoints"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "komga",
+      "type": "library_spa",
+      "base_url": "http://your-keep.local:25600/",
+      "host_url": "http://your-keep.local:25600/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home",
+        "browse"
+      ],
+      "enabled": false,
+      "skip_reason": "bound_127_only_unreachable_from_browser_container"
+    },
+    {
+      "id": "otacon",
+      "type": "identity_protected_app",
+      "base_url": "http://your-keep.local:5757/",
+      "host_url": "http://your-keep.local:5757/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home",
+        "health"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "openwebui",
+      "type": "docs_productivity",
+      "base_url": "http://your-keep.local:3990/",
+      "host_url": "http://your-keep.local:3990/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "searxng",
+      "type": "search",
+      "base_url": "http://your-keep.local:8180/",
+      "host_url": "http://your-keep.local:8180/",
+      "auth": "none",
+      "safe_tasks": [
+        "search_query"
+      ],
+      "enabled": false,
+      "counts_as_authenticated": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "obsidian",
+      "type": "docs_productivity",
+      "base_url": "http://your-keep.local:8098/",
+      "host_url": "http://your-keep.local:8098/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "romm",
+      "type": "library_spa",
+      "base_url": "http://your-keep.local:8095/",
+      "host_url": "http://your-keep.local:8095/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "keepdesk",
+      "type": "dashboard_admin",
+      "base_url": "http://your-keep.local:5765/",
+      "host_url": "http://your-keep.local:5765/",
+      "auth": "none",
+      "safe_tasks": [
+        "open_home",
+        "api_health"
+      ],
+      "enabled": false,
+      "counts_as_authenticated": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "keepgate",
+      "type": "identity_protected_app",
+      "base_url": "http://your-keep.local:5790/",
+      "host_url": "http://your-keep.local:5790/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "wyze",
+      "type": "monitoring",
+      "base_url": "http://your-keep.local:5000/",
+      "host_url": "http://your-keep.local:5000/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "service_returning_500"
+    },
+    {
+      "id": "files",
+      "type": "file_transfer",
+      "base_url": "http://your-keep.local:8899/",
+      "host_url": "http://your-keep.local:8899/",
+      "auth": "none",
+      "safe_tasks": [
+        "list_root"
+      ],
+      "enabled": false,
+      "counts_as_authenticated": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "komga_hud",
+      "type": "dashboard_admin",
+      "base_url": "http://your-keep.local:5789/",
+      "host_url": "http://your-keep.local:5789/",
+      "auth": "none",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "counts_as_authenticated": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "collabora",
+      "type": "docs_productivity",
+      "base_url": "http://your-keep.local:9980/",
+      "host_url": "http://your-keep.local:9980/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    },
+    {
+      "id": "qbittorrent",
+      "type": "file_transfer",
+      "base_url": "http://your-keep.local:8080/",
+      "host_url": "http://your-keep.local:8080/",
+      "auth": "session",
+      "safe_tasks": [
+        "open_home"
+      ],
+      "enabled": false,
+      "skip_reason": "example_placeholder_for_public_repo"
+    }
+  ]
+}

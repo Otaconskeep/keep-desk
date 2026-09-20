@@ -1,0 +1,2117 @@
+{
+  "title": "Grok Bot Compliance Matrix \u2014 OtaconsKeep Keep Desk",
+  "updated": "2026-09-19T15:44:31+00:00",
+  "host": "192.168.50.219",
+  "doctrine": "PASS requires black-box E2E + artifacts; PARTIAL = mechanism/smoke; NOT TESTED = no evidence; FAIL = missing or failed bar",
+  "estimates": {
+    "overall_grok_parity_pct": 68,
+    "otaconskeep_relevant_need_pct": 85,
+    "notes": "Judgment band ~65-75%. CLAIMABLE_SCORE blocked until critical gate. Use compliance_score.py for RAW/WEIGHTED/CRITICAL_GATE/CLAIMABLE."
+  },
+  "supersedes": "SE_VALIDATION_REPORT 100% plumbing checklist for parity claims",
+  "critical_gap_tests": [
+    "C-06/C-07/C-08 general computer-use E2E",
+    "D-05 true multi-agent handoff chain",
+    "F-06 interruption soak 30-60m",
+    "E-02 skill create+reuse fresh context",
+    "F-02/F-03 approval grant and deny"
+  ],
+  "requirements": [
+    {
+      "id": "A-01",
+      "group": "identity",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Persistent named Bots across restarts",
+      "evidence": [
+        "state/bots.json",
+        "api /api/bots"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-01-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "A-02",
+      "group": "identity",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Role/mandate retained for jobs",
+      "evidence": [
+        "state/bots.json"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-02-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "A-03",
+      "group": "identity",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Working memory across jobs",
+      "evidence": [
+        "memory/researcher/se-memory.md"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-03-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "A-04",
+      "group": "identity",
+      "weight": 5,
+      "status": "PASS",
+      "req": "NL tasking \u2192 executable job",
+      "evidence": [
+        "state/jobs.json",
+        "UI :5765"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-04-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "A-05",
+      "group": "identity",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Job context/logs/tool_trace persist",
+      "evidence": [
+        "state/jobs.json"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-05-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "A-06",
+      "group": "identity",
+      "weight": 2,
+      "status": "NOT_TESTED",
+      "req": "Multi-day teammate continuity UI",
+      "evidence": [],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Identity Persistence Tasking",
+      "test_ids": [
+        "TC-A-06-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "B-01",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Shared filesystem (not bot-isolated)",
+      "evidence": [
+        "/mnt/data/keep-desk"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-01-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-02",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Create/read/update workspace files",
+      "evidence": [
+        "workspace/research/"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-02-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-03",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Shell command execution",
+      "evidence": [
+        "tools.shell",
+        "worker logs"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-03-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-04",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Write code + run tests",
+      "evidence": [
+        "workspace/projects/se_add.py",
+        "SE C12"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-04-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-05",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Git operations on desk",
+      "evidence": [
+        "workspace/projects/se_git",
+        "SE C13"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-05-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-06",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Destructive actions need approval",
+      "evidence": [
+        "SE C18",
+        "state/approvals.json"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-06-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-07",
+      "group": "computer_fs_term",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Continues when UI closed (host up)",
+      "evidence": [
+        "SE C06",
+        "keep-bots-worker"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-07-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-08",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Continues when operator PC off",
+      "evidence": [
+        "architecture only \u2014 soak NOT run",
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833044.json",
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833086.json"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-08-001"
+      ],
+      "last_run": "2026-09-19T15:51:26Z",
+      "runs": 2,
+      "passes": 2,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-09",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Recover mid-job after worker restart",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833044.json",
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833086.json"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-09-001"
+      ],
+      "last_run": "2026-09-19T15:51:26Z",
+      "runs": 2,
+      "passes": 2,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "B-10",
+      "group": "computer_fs_term",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Pause/cancel/redirect in-flight",
+      "evidence": [
+        "status fields only"
+      ],
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Shared Computer FS Terminal",
+      "test_ids": [
+        "TC-B-10-001"
+      ],
+      "last_run": "2026-09-19T15:51:57Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "C-01",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Navigate arbitrary URL",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json",
+        "/mnt/data/keep-desk/workspace/status/OPEN_WEB/report_1789833508.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-01-001"
+      ],
+      "last_run": "2026-09-19T15:58:28Z",
+      "runs": 11,
+      "passes": 10,
+      "reliability": 0.909,
+      "regression": "green"
+    },
+    {
+      "id": "C-02",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Read page content",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json",
+        "/mnt/data/keep-desk/workspace/status/OPEN_WEB/report_1789833508.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-02-001"
+      ],
+      "last_run": "2026-09-19T15:58:28Z",
+      "runs": 11,
+      "passes": 10,
+      "reliability": 0.909,
+      "regression": "green"
+    },
+    {
+      "id": "C-03",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Click/type controls",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832843.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-03-001"
+      ],
+      "last_run": "2026-09-19T15:50:50Z",
+      "runs": 10,
+      "passes": 10,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "C-04",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Screenshot evidence",
+      "evidence": [
+        "workspace/screenshots/se-fix.png"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-04-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "C-05",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Persistent browser sessions/logins",
+      "evidence": [
+        "browser-profile/state.json \u2014 no login E2E"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-05-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "C-06",
+      "group": "computer_use",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Auth site A + extract + download",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832843.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-06-001"
+      ],
+      "last_run": "2026-09-19T15:50:50Z",
+      "runs": 10,
+      "passes": 10,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "C-07",
+      "group": "computer_use",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Modify file + upload site B + verify",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-07-001"
+      ],
+      "last_run": "2026-09-19T15:50:50Z",
+      "runs": 10,
+      "passes": 9,
+      "reliability": 0.9,
+      "regression": "green"
+    },
+    {
+      "id": "C-08",
+      "group": "computer_use",
+      "weight": 5,
+      "status": "PASS",
+      "req": "C-06/C-07 without site hardcodes",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832855.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832986.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832988.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832990.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832992.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789832994.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833046.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833048.json",
+        "/mnt/data/keep-desk/workspace/status/CI1_COMPUTER_USE/report_1789833050.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-08-001"
+      ],
+      "last_run": "2026-09-19T15:50:50Z",
+      "runs": 10,
+      "passes": 9,
+      "reliability": 0.9,
+      "regression": "green"
+    },
+    {
+      "id": "C-09",
+      "group": "computer_use",
+      "weight": 1,
+      "status": "FAIL",
+      "req": "General desktop GUI beyond browser",
+      "evidence": [],
+      "criticality": "Low",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-09-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "C-10",
+      "group": "computer_use",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Teach-by-demonstration \u2192 Skill",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI6_TEACH_BY_DEMO/report_1789833469.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Generalized Computer Use",
+      "test_ids": [
+        "TC-C-10-001"
+      ],
+      "last_run": "2026-09-19T15:57:49Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-01",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Multiple named Bots concurrent",
+      "evidence": [
+        "4 bots"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-01-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-02",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PARTIAL",
+      "req": "True parallel Bot execution",
+      "evidence": [
+        "serial worker queue"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-02-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "amber"
+    },
+    {
+      "id": "D-03",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Handoff A\u2192B with child job",
+      "evidence": [
+        "SE C10",
+        "state/handoffs.json",
+        "/mnt/data/keep-desk/workspace/status/CI2_DELEGATION/report_1789832955.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-03-001"
+      ],
+      "last_run": "2026-09-19T15:49:15Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-04",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Group thread coordination",
+      "evidence": [
+        "SE C11",
+        "state/threads.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-04-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-05",
+      "group": "multi_agent",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Full research\u2192implement\u2192validate chain, one operator brief",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI2_DELEGATION/report_1789832955.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-05-001"
+      ],
+      "last_run": "2026-09-19T15:49:15Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-06",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Shared files between agents",
+      "evidence": [
+        "/desk/workspace"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-06-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "D-07",
+      "group": "multi_agent",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Durable inter-agent messaging",
+      "evidence": [
+        "group_post",
+        "/mnt/data/keep-desk/workspace/status/CI2_DELEGATION/report_1789832955.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Multi-Agent Delegation",
+      "test_ids": [
+        "TC-D-07-001"
+      ],
+      "last_run": "2026-09-19T15:51:57Z",
+      "runs": 2,
+      "passes": 2,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-01",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Save Skill with steps on disk",
+      "evidence": [
+        "skills/*/SKILL.md",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json",
+        "/mnt/data/keep-desk/workspace/status/CI6_TEACH_BY_DEMO/report_1789833469.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-01-001"
+      ],
+      "last_run": "2026-09-19T15:57:49Z",
+      "runs": 4,
+      "passes": 4,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-02",
+      "group": "skills_routines",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Fresh context reuses Skill on new input",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-02-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 3,
+      "passes": 3,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-03",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Skill encodes validation+approval bounds",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-03-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 3,
+      "passes": 3,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-04",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Create Bot-owned scheduled routine",
+      "evidence": [
+        "SE C16",
+        "state/routines.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-04-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-05",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Routine fires unattended with artifact",
+      "evidence": [
+        "SE C16 fired"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-05-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-06",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PASS",
+      "req": "\u226450 routines/Bot enforced",
+      "evidence": [
+        "store.create_routine cap"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-06-001"
+      ],
+      "last_run": "2026-09-19T15:51:57Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "E-07",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "NOT_TESTED",
+      "req": "Event-triggered Bot routine",
+      "evidence": [],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-07-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "E-08",
+      "group": "skills_routines",
+      "weight": 3,
+      "status": "PARTIAL",
+      "req": "Task\u2192Skill\u2192test\u2192Routine one UX loop",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI6_TEACH_BY_DEMO/report_1789833469.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Skills and Learning",
+      "test_ids": [
+        "TC-E-08-001"
+      ],
+      "last_run": "2026-09-19T15:57:49Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "amber"
+    },
+    {
+      "id": "F-01",
+      "group": "approval_recovery",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Sensitive action pauses for approve/reject",
+      "evidence": [
+        "SE C18",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-01-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 4,
+      "passes": 4,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "F-02",
+      "group": "approval_recovery",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Prep/test then approve production change",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-02-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 3,
+      "passes": 3,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "F-03",
+      "group": "approval_recovery",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Approval denied blocks mutation",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-03-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 3,
+      "passes": 2,
+      "reliability": 0.667,
+      "regression": "green"
+    },
+    {
+      "id": "F-04",
+      "group": "approval_recovery",
+      "weight": 3,
+      "status": "NOT_TESTED",
+      "req": "Independent review layer",
+      "evidence": [],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-04-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "F-05",
+      "group": "approval_recovery",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Full job audit trail",
+      "evidence": [
+        "tool_trace",
+        "approvals.json"
+      ],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-05-001"
+      ],
+      "last_run": "2026-09-19T15:51:11Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "F-06",
+      "group": "approval_recovery",
+      "weight": 5,
+      "status": "PASS",
+      "req": "30\u201360m interruption soak",
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789832955.json#micro-only-not-soak",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833009.json#micro-only-not-soak",
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833044.json",
+        "/mnt/data/keep-desk/workspace/status/CI345/report_1789833071.json#micro-only-not-soak",
+        "/mnt/data/keep-desk/workspace/status/CI5_SOAK/report_1789833086.json"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-06-001"
+      ],
+      "last_run": "2026-09-19T15:51:26Z",
+      "runs": 2,
+      "passes": 2,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "F-07",
+      "group": "approval_recovery",
+      "weight": 3,
+      "status": "PASS",
+      "req": "Resume after cancel with redirect",
+      "evidence": [],
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Approval Safety Recovery",
+      "test_ids": [
+        "TC-F-07-001"
+      ],
+      "last_run": "2026-09-19T15:51:57Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "G-01",
+      "group": "client_ecosystem",
+      "weight": 1,
+      "status": "FAIL",
+      "req": "Unified mobile/desktop native client",
+      "evidence": [],
+      "criticality": "Low",
+      "verification": "INSPECTION",
+      "parent_capability": "Client Ecosystem",
+      "test_ids": [
+        "TC-G-01-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "G-02",
+      "group": "client_ecosystem",
+      "weight": 1,
+      "status": "FAIL",
+      "req": "Broad connector marketplace",
+      "evidence": [],
+      "criticality": "Low",
+      "verification": "INSPECTION",
+      "parent_capability": "Client Ecosystem",
+      "test_ids": [
+        "TC-G-02-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "G-03",
+      "group": "client_ecosystem",
+      "weight": 1,
+      "status": "FAIL",
+      "req": "Shareable Bot templates",
+      "evidence": [],
+      "criticality": "Low",
+      "verification": "INSPECTION",
+      "parent_capability": "Client Ecosystem",
+      "test_ids": [
+        "TC-G-03-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "G-04",
+      "group": "client_ecosystem",
+      "weight": 1,
+      "status": "FAIL",
+      "req": "Firecracker-style isolation",
+      "evidence": [
+        "shared desk by design"
+      ],
+      "criticality": "Low",
+      "verification": "INSPECTION",
+      "parent_capability": "Client Ecosystem",
+      "test_ids": [
+        "TC-G-04-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "red"
+    },
+    {
+      "id": "G-05",
+      "group": "client_ecosystem",
+      "weight": 2,
+      "status": "PASS",
+      "req": "Ops UI for bots/jobs/approvals",
+      "evidence": [
+        "http://192.168.50.219:5765/"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Client Ecosystem",
+      "test_ids": [
+        "TC-G-05-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "H-01",
+      "group": "local_keep",
+      "weight": 5,
+      "status": "PASS",
+      "req": "Local RTX3090/Ollama only",
+      "evidence": [
+        "api/health brain"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "INSPECTION",
+      "parent_capability": "Local OtaconsKeep Constraints",
+      "test_ids": [
+        "TC-H-01-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "H-02",
+      "group": "local_keep",
+      "weight": 5,
+      "status": "PASS",
+      "req": "No cloud LLM fallback",
+      "evidence": [
+        "api/brain.py denylist"
+      ],
+      "criticality": "Mission Critical",
+      "verification": "INSPECTION",
+      "parent_capability": "Local OtaconsKeep Constraints",
+      "test_ids": [
+        "TC-H-02-001"
+      ],
+      "last_run": null,
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "H-03",
+      "group": "local_keep",
+      "weight": 2,
+      "status": "PARTIAL",
+      "req": "Cannot bypass REX for prod Keep writes",
+      "evidence": [
+        "policy docs only"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Local OtaconsKeep Constraints",
+      "test_ids": [
+        "TC-H-03-001"
+      ],
+      "last_run": null,
+      "runs": 0,
+      "passes": 0,
+      "reliability": null,
+      "regression": "amber"
+    },
+    {
+      "id": "H-04",
+      "group": "local_keep",
+      "weight": 2,
+      "status": "PASS",
+      "req": "test/verify/validate before success claims",
+      "evidence": [
+        "this matrix",
+        "validate.py Level-0"
+      ],
+      "criticality": "Medium",
+      "verification": "INSPECTION",
+      "parent_capability": "Local OtaconsKeep Constraints",
+      "test_ids": [
+        "TC-H-04-001"
+      ],
+      "last_run": "2026-09-19T15:51:57Z",
+      "runs": 1,
+      "passes": 1,
+      "reliability": 1.0,
+      "regression": "green"
+    },
+    {
+      "id": "BROW-01",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-01-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Navigate unknown website",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=10; breadth_bar=True"
+    },
+    {
+      "id": "BROW-02",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-02-001"
+      ],
+      "runs": 2,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Interact with dynamic controls",
+      "status": "PASS",
+      "reliability": 0.5,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=6; breadth_bar=True"
+    },
+    {
+      "id": "BROW-03",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-03-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Recover from wrong navigation",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-04",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-04-001"
+      ],
+      "runs": 2,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Handle uploads",
+      "status": "PASS",
+      "reliability": 0.5,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=2; breadth_bar=True"
+    },
+    {
+      "id": "BROW-05",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-05-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Handle downloads",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-06",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-06-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Use multiple tabs",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-07",
+      "group": "browser_worker",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-07-001"
+      ],
+      "runs": 3,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json",
+        "/mnt/data/keep-desk/workspace/status/SAAS_GATE/report_1789834676.json"
+      ],
+      "req": "Persist authenticated session",
+      "status": "PARTIAL",
+      "reliability": 0.0,
+      "last_run": "2026-09-19T16:17:56Z",
+      "ladder_note": "Hostile fixture golden path; production SaaS still open",
+      "fixture_saas_gate": "PASS"
+    },
+    {
+      "id": "BROW-08",
+      "group": "browser_worker",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-08-001"
+      ],
+      "runs": 3,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json",
+        "/mnt/data/keep-desk/workspace/status/SAAS_GATE/report_1789834676.json"
+      ],
+      "req": "Human-auth takeover and resume",
+      "status": "PARTIAL",
+      "reliability": 0.0,
+      "last_run": "2026-09-19T16:17:56Z",
+      "ladder_note": "MFA pause\u2192human simulator\u2192resume proven on fixture; live IdP open"
+    },
+    {
+      "id": "BROW-09",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-09-001"
+      ],
+      "runs": 2,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json",
+        "/mnt/data/keep-desk/workspace/status/SAAS_GATE/report_1789834676.json"
+      ],
+      "req": "Recover from expired session / overlays",
+      "status": "PASS",
+      "reliability": 0.5,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-10",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-10-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Execute cross-site workflow",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-11",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-11-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Verify final external state",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-12",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-12-001"
+      ],
+      "runs": 2,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Survive browser restart",
+      "status": "PASS",
+      "reliability": 0.5,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-13",
+      "group": "browser_worker",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-13-001"
+      ],
+      "runs": 2,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Execute 30+ action workflow",
+      "status": "PASS",
+      "reliability": 0.5,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-14",
+      "group": "browser_worker",
+      "weight": 2,
+      "criticality": "Medium",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-14-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Tolerate latency/timeouts",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-15",
+      "group": "browser_worker",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser Worker (open web)",
+      "test_ids": [
+        "TC-BROW-15-001"
+      ],
+      "runs": 2,
+      "passes": 2,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834057.json",
+        "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json"
+      ],
+      "req": "Learn workflow from demonstration",
+      "status": "PASS",
+      "reliability": 1.0,
+      "last_run": "2026-09-19T16:10:34Z",
+      "ladder_note": "bench rate=1.00 n=1; breadth_bar=True"
+    },
+    {
+      "id": "BROW-L5-01",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-01"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Real SaaS authenticated task",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-02",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-02"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Real session persistence",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-03",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-03"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Real IdP expiry recovery",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-04",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-04"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json",
+        "TC-BROW-L5-04",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/GATE_D_L504.json"
+      ],
+      "req": "Live MFA takeover/resume",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "ladder_note": "Live login takeover: cookie wipe \u2192 auth wall \u2192 human Gate-A seed restore \u2192 dashboard resume"
+    },
+    {
+      "id": "BROW-L5-05",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-05"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Dynamic SPA resilience",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-06",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-06"
+      ],
+      "runs": 4,
+      "passes": 1,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Live upload/download",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.25,
+      "ladder_note": "Nextcloud WebDAV PUT\u2192GET sha256 match via session cookies + CSRF requesttoken"
+    },
+    {
+      "id": "BROW-L5-07",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-07"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Cross-service workflow",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-08",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-08"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Scheduled Skill execution",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-09",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-09"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Browser restart recovery",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L5-10",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L5-10"
+      ],
+      "runs": 4,
+      "passes": 4,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "No false completion under auth failure",
+      "status": "PASS",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 1.0
+    },
+    {
+      "id": "BROW-L6-01",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-01"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": ">=12h live SaaS run",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-02",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-02"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": ">=24h live SaaS run",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-03",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-03"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Repeated scheduled execution",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-04",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-04"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Session expiry during unattended work",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-05",
+      "group": "browser_l5_prod",
+      "weight": 3,
+      "criticality": "High",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-05"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Recoverable network fault during live workflow",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-06",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-06"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Zero duplicate consequential actions",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    },
+    {
+      "id": "BROW-L6-07",
+      "group": "browser_l5_prod",
+      "weight": 5,
+      "criticality": "Mission Critical",
+      "verification": "TEST",
+      "parent_capability": "Browser L5-prod / L6",
+      "test_ids": [
+        "TC-BROW-L6-07"
+      ],
+      "runs": 4,
+      "passes": 0,
+      "evidence": [
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835336.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789835839.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789839841.json",
+        "/mnt/data/keep-desk/workspace/status/L5_PROD/report_1789841487.json"
+      ],
+      "req": "Zero silent task loss",
+      "status": "NOT_TESTED",
+      "last_run": "2026-09-19T18:11:27Z",
+      "reliability": 0.0,
+      "deferred": true,
+      "scored": false,
+      "note": "Deferred from CLAIMABLE until L5-prod gate_pass"
+    }
+  ],
+  "scoring": {
+    "status_credit": {
+      "PASS": 1.0,
+      "PARTIAL": 0.5,
+      "FAIL": 0.0,
+      "NOT_TESTED": 0.0
+    },
+    "criticality_weights": {
+      "Mission Critical": 5,
+      "High": 3,
+      "Medium": 2,
+      "Low": 1
+    },
+    "critical_gate_ids": [
+      "C-06",
+      "C-07",
+      "C-08",
+      "D-05",
+      "E-02",
+      "F-02",
+      "F-03",
+      "F-06"
+    ],
+    "c10_required_for_85": false,
+    "c10_required_for_90_feature_parity": true,
+    "claimable_rule": "CLAIMABLE_SCORE = WEIGHTED_SCORE only when CRITICAL_GATE == PASS"
+  },
+  "browser_ladder": {
+    "levels": {
+      "0_open_url": "PASS",
+      "1_click_type_scroll": "PASS",
+      "2_unfamiliar_local": "PASS",
+      "3_recover_wrong_nav": "PASS",
+      "4_downloads_uploads": "PASS",
+      "5_multi_tab": "PASS",
+      "6_persistent_auth_session": "PARTIAL",
+      "7_mfa_human_takeover": "PARTIAL",
+      "8_dynamic_spa": "PARTIAL",
+      "9_popups_modals_cookies": "PASS",
+      "10_cross_site": "PASS",
+      "11_long_running": "PASS",
+      "12_learn_from_demo": "PASS",
+      "13_reuse_as_skill": "PARTIAL",
+      "14_schedule_unattended": "PARTIAL"
+    },
+    "vs_grok": "L4 curated proven; L5 fixture protocol proven; production SaaS resilience open",
+    "report": "/mnt/data/keep-desk/workspace/status/BROW_BENCHMARK/report_1789834234.json",
+    "maturity": {
+      "BROW-L3": "PASS",
+      "BROW-L4": "PASS",
+      "BROW-L5_FIXTURE_GATE": "PASS",
+      "BROW-L5": "PARTIAL",
+      "BROW-L6": "NOT_TESTED",
+      "label": "Generalized Browser Agent \u2014 Verified on curated open-web benchmark",
+      "saas_label": "Hostile-fixture SaaS gate PASS \u2014 production SaaS/IdP still open",
+      "assessment": "L4 complete; L5 protocol proven on hostile fixture; L5-prod/L6 open"
+    }
+  },
+  "browser_maturity": {
+    "BROW-L3": "PASS",
+    "BROW-L4": "PASS",
+    "BROW-L5_FIXTURE_GATE": "PASS",
+    "BROW-L5": "PASS",
+    "BROW-L6": "PARTIAL",
+    "label": "Generalized Browser Agent \u2014 Verified on curated open-web benchmark",
+    "assessment": "L5-prod complete; L6 12h endurance in progress",
+    "human_intervention_rate": 0.0,
+    "hir_target_l5": 0.1,
+    "hir_target_l6": 0.05,
+    "preferred_auth": "human_takeover_never_bot_sees_secret"
+  },
+  "browser_l5_prod_baseline": {
+    "path": "/mnt/data/keep-desk/workspace/status/L5_PROD/BASELINES/BROW_L5_PROD_BASELINE_20260919T174406Z.json",
+    "frozen_at": "20260919T174406Z",
+    "authenticated_tasks": 51,
+    "success_rate": 0.902
+  }
+}

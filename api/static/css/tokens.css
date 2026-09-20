@@ -1,0 +1,169 @@
+/* OtaconsKeep Command Deck — cinematic sci-fi OS
+   Depth · bevel · HUD contrast · film title presence */
+
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700&family=Sora:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap');
+
+:root {
+  /* Dual signal — ice + ember (movie HUD, not neon spam) */
+  --ice: #5ec8ff;
+  --ice-dim: #2a7a9e;
+  --ice-glow: rgba(94, 200, 255, 0.35);
+  --ember: #e8a45a;
+  --ember-dim: #a66b2e;
+  --phosphor: #4ade9b;
+  --alert: #ff6b6b;
+  --violet-hud: #9b8cff; /* sparse use only */
+
+  /* Depth stack */
+  --void: #03050a;
+  --void-2: #070b14;
+  --hull: #0d121c;
+  --hull-2: #141b28;
+  --plate: #1a2333;
+  --inset: #060910;
+
+  /* Bevel materials */
+  --bevel-hi: rgba(255, 255, 255, 0.14);
+  --bevel-lo: rgba(0, 0, 0, 0.55);
+  --metal: linear-gradient(145deg, #1e2838 0%, #0f1520 45%, #182232 100%);
+  --metal-bright: linear-gradient(145deg, #2a3548 0%, #151c2a 50%, #1f2a3c 100%);
+  --glass: rgba(16, 24, 40, 0.72);
+
+  --line: rgba(255, 255, 255, 0.08);
+  --line-strong: rgba(255, 255, 255, 0.14);
+  --line-ember: rgba(232, 164, 90, 0.35);
+
+  --text: #eef3fb;
+  --text-soft: #9aabc4;
+  --muted: #62748f;
+  --faint: #3a465c;
+
+  --ok: var(--phosphor);
+  --warn: var(--ember);
+  --bad: var(--alert);
+  --info: var(--ice);
+  --idle: #5a6a80;
+  --signal: var(--ice);
+  --signal-soft: rgba(94, 200, 255, 0.12);
+  --signal-line: var(--line-strong);
+  --live: var(--phosphor);
+  --live-soft: rgba(74, 222, 155, 0.12);
+
+  --font-display: "Orbitron", sans-serif;
+  --font-body: "Sora", sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --text-xs: 0.7rem;
+  --text-sm: 0.825rem;
+  --text-md: 0.95rem;
+  --text-lg: 1.1rem;
+  --text-xl: 1.45rem;
+  --text-2xl: 1.85rem;
+  --text-hero: clamp(1.8rem, 3.2vw, 2.75rem);
+  --text-brand: clamp(2.2rem, 5vw, 3.6rem);
+
+  --lh-tight: 1.1;
+  --lh: 1.55;
+
+  --s-1: 0.25rem;
+  --s-2: 0.5rem;
+  --s-3: 0.75rem;
+  --s-4: 1rem;
+  --s-5: 1.25rem;
+  --s-6: 1.5rem;
+  --s-8: 2rem;
+  --s-10: 2.5rem;
+  --s-12: 3rem;
+
+  --r-sm: 0;
+  --r-md: 0;
+  --r-lg: 0;
+  --r-xl: 0;
+
+  --rail-w: 72px;
+  --side-w: 300px;
+  --header-h: 56px;
+  --command-h: 68px;
+  --max-content: 1440px;
+
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur-fast: 140ms;
+  --dur: 280ms;
+  --dur-slow: 600ms;
+
+  --shadow-deep: 0 28px 80px rgba(0, 0, 0, 0.65);
+  --shadow-plate: 0 12px 40px rgba(0, 0, 0, 0.45), inset 0 1px 0 var(--bevel-hi);
+  --glow-ice: 0 0 40px rgba(94, 200, 255, 0.15);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  min-height: 100%;
+  background: var(--void);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: var(--lh);
+  -webkit-font-smoothing: antialiased;
+}
+
+body {
+  background:
+    radial-gradient(ellipse 1100px 600px at 15% -5%, rgba(94, 200, 255, 0.16), transparent 55%),
+    radial-gradient(ellipse 800px 500px at 95% 10%, rgba(232, 164, 90, 0.08), transparent 50%),
+    radial-gradient(ellipse 600px 400px at 50% 110%, rgba(74, 222, 155, 0.05), transparent 50%),
+    linear-gradient(180deg, #08101c 0%, var(--void) 40%, #020308 100%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Scan atmosphere — subtle, cinematic */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.045;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(94, 200, 255, 0.15) 2px,
+    rgba(94, 200, 255, 0.15) 3px
+  );
+  mask-image: radial-gradient(ellipse at 50% 30%, black 10%, transparent 70%);
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  line-height: var(--lh-tight);
+  margin: 0;
+}
+
+a { color: var(--ice); text-decoration: none; }
+a:hover { color: #9adcff; }
+button, input, select, textarea { font: inherit; color: inherit; }
+
+::selection { background: rgba(94, 200, 255, 0.35); color: #fff; }
+:focus-visible { outline: 1px solid var(--ice); outline-offset: 2px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0,0,0,0); border: 0;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  color: var(--muted);
+  letter-spacing: 0.03em;
+}
+
+.quiet-copy { color: var(--text-soft); font-size: var(--text-sm); line-height: 1.55; }
+.truncate { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
