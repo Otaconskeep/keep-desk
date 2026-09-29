@@ -15,13 +15,9 @@
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(1.1rem, 2.2vw, 1.45rem);
-  letter-spacing: 0.22em;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
-  background: linear-gradient(100deg, #fff 10%, #9ad9ff 45%, #5ec8ff 70%, #e8a45a 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  filter: drop-shadow(0 0 18px rgba(94,200,255,0.25));
+  color: var(--text);
   margin-right: auto;
 }
 .hx-pills {
@@ -54,39 +50,28 @@
 .hx-attn {
   display: inline-flex;
   align-items: center;
-  gap: 0.45rem;
-  border: 1px solid transparent;
-  border-radius: 999px;
+  gap: 0.5rem;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--r-sm);
+  background: rgba(255,255,255,0.02);
   padding: 0.4rem 0.85rem;
   cursor: pointer;
-  font-family: var(--font-display);
-  font-size: 0.72rem;
-  letter-spacing: 0.14em;
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  transition: transform 0.12s var(--ease), box-shadow 0.12s;
+  color: var(--text-soft);
+  transition: border-color 0.12s var(--ease), color 0.12s;
 }
-.hx-attn:hover { transform: translateY(-1px); }
+.hx-attn:hover { border-color: var(--line-strong); color: var(--text); }
 .hx-attn-dot {
-  width: 8px; height: 8px;
+  width: 6px; height: 6px;
   border-radius: 50%;
   background: currentColor;
-  box-shadow: 0 0 10px currentColor;
 }
-.hx-attn[data-level="green"] {
-  color: #04140c;
-  background: linear-gradient(135deg, #6dffb0, #2fbf74);
-  box-shadow: 0 0 20px rgba(74,222,155,0.35);
-}
-.hx-attn[data-level="yellow"] {
-  color: #1a1000;
-  background: linear-gradient(135deg, #ffd27a, #e8a45a);
-  box-shadow: 0 0 20px rgba(232,164,90,0.35);
-}
-.hx-attn[data-level="red"] {
-  color: #1a0404;
-  background: linear-gradient(135deg, #ff9a9a, #ff5c5c);
-  box-shadow: 0 0 20px rgba(255,107,107,0.4);
-}
+.hx-attn[data-level="green"] { color: var(--phosphor); }
+.hx-attn[data-level="yellow"] { color: var(--ember); }
+.hx-attn[data-level="red"] { color: var(--alert); border-color: rgba(255,107,107,0.4); }
 
 .hx-stage {
   display: grid;
@@ -95,7 +80,7 @@
   align-items: start;
 }
 .hx-card {
-  border-radius: 28px;
+  border-radius: var(--r-lg);
   padding: 1.75rem 1.85rem 1.6rem;
   background:
     radial-gradient(ellipse 80% 60% at 10% 0%, rgba(94,200,255,0.08), transparent 55%),
@@ -129,7 +114,7 @@
 }
 
 .hx-dod {
-  border-radius: 18px;
+  border-radius: var(--r-md);
   padding: 1rem 1.1rem;
   margin-bottom: 1.25rem;
   background: rgba(74,222,155,0.05);
@@ -217,7 +202,7 @@
   border: 1px solid rgba(255,255,255,0.1);
   background: rgba(255,255,255,0.03);
   color: var(--text-soft);
-  border-radius: 14px;
+  border-radius: var(--r-md);
   padding: 0.7rem 0.5rem;
   cursor: pointer;
   font-family: var(--font-display);
@@ -234,7 +219,7 @@
 }
 .hx-live {
   margin-top: 0.5rem;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   overflow: hidden;
   border: 1px solid rgba(255,255,255,0.08);
   background: #000;
@@ -427,7 +412,7 @@ body[data-page="briefing"] .context {
 }
 .speaker-mark {
   width: 52px; height: 52px;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   display: grid; place-items: center;
   background: linear-gradient(145deg, #9adcff, var(--ice) 50%, #1a6a90);
   color: #041018;
@@ -542,7 +527,7 @@ body[data-page="briefing"] .context {
 }
 .msg-avatar {
   width: 40px; height: 40px;
-  border-radius: 12px;
+  border-radius: var(--r-sm);
   display: grid; place-items: center;
   font-size: 0.7rem;
   font-weight: 700;
@@ -934,7 +919,6 @@ body[data-page="briefing"] .context {
 .md-body .md-list { margin: 0.35rem 0 0.35rem 1rem; }
 .md-body a { color: var(--ice); }
 .rat-section.is-dossier { border-color: rgba(232,164,90,0.35); }
-.codec-inner { grid-template-columns: auto auto 1fr auto auto !important; }
 
 .hx-live.is-nosignal img { opacity: 0.15; filter: grayscale(1); }
 .hx-live .nosignal-overlay {
@@ -966,7 +950,7 @@ body[data-page="briefing"] .context {
     linear-gradient(180deg, rgba(12, 18, 30, 0.98), rgba(4, 7, 14, 0.99)) !important;
 }
 .codec-inner {
-  grid-template-columns: auto auto 120px 1fr auto auto !important;
+  grid-template-columns: auto auto 1fr auto auto !important;
   gap: 0.65rem !important;
 }
 .codec-portrait {
@@ -978,6 +962,10 @@ body[data-page="briefing"] .context {
   clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 8px, 100% 100%, 8px 100%, 0 calc(100% - 8px));
 }
 .codec-meta { min-width: 90px; }
+/* Already aria-hidden + tabindex="-1"; .sr-only's visually-hidden-but-in-flow
+   technique still consumed a grid track here, squeezing #ask-input down to
+   a sliver. Fully remove it from layout instead. */
+#ask-bot.sr-only { display: none; }
 .codec-freq {
   font-family: var(--font-display);
   font-size: 0.62rem;
@@ -1009,7 +997,6 @@ body[data-page="briefing"] .context {
   background: linear-gradient(135deg, #e8a45a, #b86b2a) !important;
   color: #140a00 !important;
   border: 1px solid #ffd27a !important;
-  box-shadow: 0 0 16px rgba(232,164,90,0.25) !important;
 }
 
 @media (max-width: 800px) {
